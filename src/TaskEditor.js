@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 
 import API_URL from './Api.js'
 
-class TaskList extends Component {
+
+class TaskEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
-      tasks: []
+      task: []
     };
   }
 
   componentDidMount() {
-    fetch(API_URL + 'tasks/')
+    fetch(API_URL + 'tasks/' + this.props.match.params.id)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            tasks: result
+            task: result
           });
         },
         (error) => {
@@ -33,23 +33,19 @@ class TaskList extends Component {
   }
 
   render() {
-    const { error, isLoaded, tasks } = this.state;
+    const { error, isLoaded, task } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
       return (
-        <ul>
-          {tasks.map(task => (
-            <li key={task.id}>
-              <Link to={`${task.id}`}>{task.number} {task.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <p>{task.number} - {task.title}</p>
+        </div>
       );
     }
   }
 }
 
-export default TaskList;
+export default TaskEditor;

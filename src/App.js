@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import TaskList from './TaskList.js'
+import './App.css';
+import TaskList from './TaskList.js';
+import TaskEditor from './TaskEditor.js';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <TaskList />
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={TaskList} />
+          <Route exact path="/:id" component={TaskEditor} />
+        </div>
+      </Router>
     );
   }
 }
